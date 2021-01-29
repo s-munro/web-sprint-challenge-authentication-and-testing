@@ -2,7 +2,7 @@ const request = require("supertest");
 const db = require("../data/dbConfig");
 const server = require("./server");
 
-const User = require("./auth/auth-model");
+// const User = require("./auth/auth-model");
 
 const samUser = { username: "sam", password: "1234" };
 
