@@ -56,4 +56,22 @@ describe("server", () => {
       );
     });
   });
+
+  describe("[GET] /api/jokes", () => {
+    it("doesnt allow without login auth", async () => {
+      let res = await request(server).get("/api/jokes/");
+      expect(res.status).toEqual(401);
+    });
+    it("sends jokes array if logged in", async () => {
+      await request(server).post("/api/auth/register").send(samUser);
+      const loginRes = await request(server)
+        .post("/api/auth/login")
+        .send(samUser);
+      let res = await request(server)
+        .get("/api/jokes/")
+        .set("Authorization", loginRes.body.token);
+      // expect(loginRes.body.token).toEqual(1);
+      expect(res.body[0]).toMatchObject({ joke: expect.any(String) });
+    });
+  });
 });
